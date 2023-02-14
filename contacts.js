@@ -26,31 +26,30 @@ async function listContacts() {
     })
     return contacts;
 }
-
+///////////
 async function getContactById(contactId) {
 
-    const contactsStr = await fs.readFile(contactsPath, 'utf8');
-    const contactsArr = JSON.parse(contactsStr);
-    const contact = contactsArr.find(item => item.id === contactId)
+    const parsContacts = await parsData()
+
+    // const contactsStr = await fs.readFile(contactsPath, 'utf8');
+    // const contactsArr = JSON.parse(contactsStr);
+    const contact = parsContacts.find(item => item.id === contactId)
     if (!contact) {
         return null
     }
     return contact;
 }
-
+///////////
 async function removeContact(contactId) {
     const parsContacts = await parsData()
     const index = parsContacts.findIndex(item => item.id === contactId)
-    // const deletedContact = parsContacts[index];
     if (index === -1) {
         return null
     }
     parsContacts.splice(index, 1);
     await fs.writeFile(contactsPath, JSON.stringify(parsContacts))
-    // return parsContacts[index];
-
 }
-
+////////////
 async function addContact(name, email, phone) {
     const newContact = {
         id: uuid.v4(),
@@ -58,10 +57,13 @@ async function addContact(name, email, phone) {
         email: email,
         phone: phone,
     }
-    const contactsStr = await fs.readFile(contactsPath, 'utf8');
-    const contactsArr = JSON.parse(contactsStr);
-    contactsArr.push(newContact);
-    await fs.writeFile(contactsPath, JSON.stringify(contactsArr))
+
+    const parsContacts = await parsData()
+
+    // const contactsStr = await fs.readFile(contactsPath, 'utf8');
+    // const contactsArr = JSON.parse(contactsStr);
+    parsContacts.push(newContact);
+    await fs.writeFile(contactsPath, JSON.stringify(parsContacts))
     return newContact
 }
 
