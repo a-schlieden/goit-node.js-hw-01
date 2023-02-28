@@ -13,16 +13,7 @@ const parsData = async () => {
 
 async function listContacts() {
     const parsContacts = await parsData()
-    const contacts = parsContacts.map((item) => {
-        return {
-            id: item.id,
-            name: item.name,
-            email: item.email,
-            phone: item.phone,
-        }
-
-    })
-    return contacts;
+    return parsContacts;
 }
 
 async function getContactById(contactId) {
